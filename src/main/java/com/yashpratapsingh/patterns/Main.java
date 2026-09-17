@@ -1,5 +1,6 @@
 package com.yashpratapsingh.patterns;
 
+import com.yashpratapsingh.patterns.decorator.*;
 import com.yashpratapsingh.patterns.observer.DashboardDisplay;
 import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
@@ -37,5 +38,11 @@ public class Main {
         priceTicker.unsubscribe(riskMonitorDisplay);
 
         priceTicker.setPrice("WPRO"  , 404.23);
+
+        Trade trade1 = new RiskCheckDecorator(new LoggingDecorator(new CommissionDecorator(new BaseTrade())));
+        trade1.process();
+
+        Trade trade2 = new RiskCheckDecorator(new CommissionDecorator(new BaseTrade()));
+        trade2.process();
     }
 }
