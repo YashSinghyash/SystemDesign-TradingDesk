@@ -8,6 +8,7 @@ import com.yashpratapsingh.patterns.observer.DashboardDisplay;
 import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
 import com.yashpratapsingh.patterns.observer.TradingAlgoDisplay;
+import com.yashpratapsingh.patterns.singleton.RiskEngine;
 import com.yashpratapsingh.patterns.strategy.*;
 
 import static com.yashpratapsingh.patterns.strategy.Order.Side.*;
@@ -53,6 +54,11 @@ public class Main {
 
         OrderDesk orderDesk1 = new NASDAQOrderDesk();
         orderDesk1.placeOrder("LIMIT");
+
+        RiskEngine riskEngine1 = RiskEngine.getInstance();
+        RiskEngine riskEngine2 = RiskEngine.getInstance();
+
+        System.out.println(riskEngine2 == riskEngine1);
 
     }
 }
