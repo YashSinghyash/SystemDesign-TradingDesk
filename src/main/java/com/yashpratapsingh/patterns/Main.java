@@ -1,6 +1,9 @@
 package com.yashpratapsingh.patterns;
 
 import com.yashpratapsingh.patterns.decorator.*;
+import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
+import com.yashpratapsingh.patterns.factory.NYSEOrderDesk;
+import com.yashpratapsingh.patterns.factory.OrderDesk;
 import com.yashpratapsingh.patterns.observer.DashboardDisplay;
 import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
@@ -44,5 +47,12 @@ public class Main {
 
         Trade trade2 = new RiskCheckDecorator(new CommissionDecorator(new BaseTrade()));
         trade2.process();
+
+        OrderDesk orderDesk = new NYSEOrderDesk();
+        orderDesk.placeOrder("MarketOrder");
+
+        OrderDesk orderDesk1 = new NASDAQOrderDesk();
+        orderDesk1.placeOrder("LIMIT");
+
     }
 }
