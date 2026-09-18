@@ -1,5 +1,6 @@
 package com.yashpratapsingh.patterns;
 
+import com.yashpratapsingh.patterns.command.*;
 import com.yashpratapsingh.patterns.decorator.*;
 import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
 import com.yashpratapsingh.patterns.factory.NYSEOrderDesk;
@@ -59,6 +60,34 @@ public class Main {
         RiskEngine riskEngine2 = RiskEngine.getInstance();
 
         System.out.println(riskEngine2 == riskEngine1);
+
+        TradingAccount tradingAccount = new TradingAccount();
+        BuyCommand buyReliance = new BuyCommand(tradingAccount , "RELIANCE" ,  12);
+
+        OrderPad orderPad = new OrderPad();
+        orderPad.setCommand(0, buyReliance);
+
+
+        TradeCommand buyReliance2 = new BuyCommand(tradingAccount , "RELIANCE" , 5);
+        TradeCommand sellWipro = new SellCommand(tradingAccount , "WIPRO" , 12);
+
+        TradeCommand[] rebalanceBasket = {buyReliance , buyReliance2 , sellWipro};
+        BasketCommand basketCommand = new BasketCommand(rebalanceBasket);
+
+        orderPad.setCommand(1, basketCommand);
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Starting command");
+        orderPad.buttonWasPressed(0);
+        orderPad.undoButtonWasPressed();
+        orderPad.buttonWasPressed(1);
+
+        System.out.println("");
+        System.out.println("");
+
+        orderPad.undoButtonWasPressed();
+
+
 
     }
 }
