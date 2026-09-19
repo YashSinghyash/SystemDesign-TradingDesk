@@ -13,6 +13,7 @@ import com.yashpratapsingh.patterns.observer.DashboardDisplay;
 import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
 import com.yashpratapsingh.patterns.observer.TradingAlgoDisplay;
+import com.yashpratapsingh.patterns.proxy.*;
 import com.yashpratapsingh.patterns.singleton.RiskEngine;
 import com.yashpratapsingh.patterns.state.OrderMachine;
 import com.yashpratapsingh.patterns.strategy.*;
@@ -20,7 +21,7 @@ import com.yashpratapsingh.patterns.strategy.*;
 import static com.yashpratapsingh.patterns.strategy.Order.Side.*;
 
 public class Main {
-    public static void main(String[]args){
+    public static void main(String[]args) throws InterruptedException {
         Order order = new Order("RELIANCE ", 12 , 124.50 ,  BUY );
 
         OrderExecutor executor = new OrderExecutor();
@@ -128,6 +129,38 @@ public class Main {
         orderMachine.allocateMargin();
         orderMachine.submitOrder();
         orderMachine.allocateMargin();
+
+
+        System.out.println("PROXY");
+        System.out.println("");
+
+        TradeReport tradeReport = new TradeReportProxy("RELIANCE");
+        System.out.println("Proxy created instantly no expensive work done");
+        tradeReport.display();
+        tradeReport.display();
+
+        System.out.println("");
+        System.out.println("Protection Proxy");
+
+        TraderProfile realProfile = new TradeProfileImpl("Yash" , 10000.0 , 5000.0);
+
+        TraderProfile complianceView = TraderProfileFactory.getComplianceOfficerProxy(realProfile);
+        TraderProfile regularView = TraderProfileFactory.getRegularTraderProxy(realProfile);
+
+        System.out.println("Compliance officer changing risk limit:");
+        complianceView.setRiskLimit(20000.0);
+        System.out.println("New risk limit: " + complianceView.getRiskLimit());
+
+        System.out.println("Regular trader trying to change risk limit:");
+
+        try{
+            regularView.setRiskLimit(999999.0);
+        } catch (Exception e) {
+            System.out.println("Blocked " + e.getCause().getMessage());
+        }
+
+        System.out.println("Regular trader reading data (should work):");
+        System.out.println("Name: " + regularView.getName() + ", Risk limit: " + regularView.getRiskLimit());
 
     }
 }
