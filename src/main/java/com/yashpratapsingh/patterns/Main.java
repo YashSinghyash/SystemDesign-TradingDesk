@@ -5,6 +5,7 @@ import com.yashpratapsingh.patterns.adapter.LegacyBrokerAPI;
 import com.yashpratapsingh.patterns.adapter.LegacyBrokerAdapter;
 import com.yashpratapsingh.patterns.command.*;
 import com.yashpratapsingh.patterns.decorator.*;
+import com.yashpratapsingh.patterns.facade.*;
 import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
 import com.yashpratapsingh.patterns.factory.NYSEOrderDesk;
 import com.yashpratapsingh.patterns.factory.OrderDesk;
@@ -99,5 +100,24 @@ public class Main {
         orderPad.setCommand(2,legacyBrokerAdapter);
         orderPad.buttonWasPressed(2);
         orderPad.undoButtonWasPressed();
+
+
+        System.out.println("");
+        System.out.println("Facade");
+
+        RiskChecker riskChecker = new RiskChecker();
+        OrderRouter orderRouter = new OrderRouter();
+        ComplianceLogger complianceLogger = new ComplianceLogger();
+        SettlementSystem settlementSystem = new SettlementSystem();
+        NotificationService notificationService = new NotificationService();
+
+
+        TradeDeskFacade tradeDeskFacade = new TradeDeskFacade(riskChecker , complianceLogger , orderRouter , notificationService , settlementSystem);
+
+        tradeDeskFacade.placeTrade("RELIANCE" , 10);
+        System.out.println("");
+        tradeDeskFacade.placeTrade("WIPRO", 50);
+
+
     }
 }
