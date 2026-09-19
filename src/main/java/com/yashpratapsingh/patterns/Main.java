@@ -1,5 +1,8 @@
 package com.yashpratapsingh.patterns;
 
+import com.yashpratapsingh.patterns.adapter.LegacyBroker;
+import com.yashpratapsingh.patterns.adapter.LegacyBrokerAPI;
+import com.yashpratapsingh.patterns.adapter.LegacyBrokerAdapter;
 import com.yashpratapsingh.patterns.command.*;
 import com.yashpratapsingh.patterns.decorator.*;
 import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
@@ -87,7 +90,14 @@ public class Main {
 
         orderPad.undoButtonWasPressed();
 
+        System.out.println("");
+        System.out.println("");
 
+        LegacyBrokerAPI legacyBroker = new LegacyBroker();
+        LegacyBrokerAdapter legacyBrokerAdapter = new LegacyBrokerAdapter(legacyBroker);
 
+        orderPad.setCommand(2,legacyBrokerAdapter);
+        orderPad.buttonWasPressed(2);
+        orderPad.undoButtonWasPressed();
     }
 }
