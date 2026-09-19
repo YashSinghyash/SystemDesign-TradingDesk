@@ -14,6 +14,7 @@ import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
 import com.yashpratapsingh.patterns.observer.TradingAlgoDisplay;
 import com.yashpratapsingh.patterns.singleton.RiskEngine;
+import com.yashpratapsingh.patterns.state.OrderMachine;
 import com.yashpratapsingh.patterns.strategy.*;
 
 import static com.yashpratapsingh.patterns.strategy.Order.Side.*;
@@ -118,6 +119,15 @@ public class Main {
         System.out.println("");
         tradeDeskFacade.placeTrade("WIPRO", 50);
 
+        System.out.println("");
+        System.out.println("State ");
+
+        OrderMachine orderMachine = new OrderMachine(2);
+        orderMachine.allocateMargin();
+        orderMachine.submitOrder();
+        orderMachine.allocateMargin();
+        orderMachine.submitOrder();
+        orderMachine.allocateMargin();
 
     }
 }
