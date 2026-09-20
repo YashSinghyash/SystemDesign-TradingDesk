@@ -5,6 +5,8 @@ import com.yashpratapsingh.patterns.adapter.LegacyBrokerAPI;
 import com.yashpratapsingh.patterns.adapter.LegacyBrokerAdapter;
 import com.yashpratapsingh.patterns.builder.TradeOrder;
 import com.yashpratapsingh.patterns.command.*;
+import com.yashpratapsingh.patterns.composite.Portfolio;
+import com.yashpratapsingh.patterns.composite.Position;
 import com.yashpratapsingh.patterns.decorator.*;
 import com.yashpratapsingh.patterns.facade.*;
 import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
@@ -214,6 +216,25 @@ public class Main {
         printPortfolio(nyseIterator);
 
 
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Composite");
+
+        Portfolio totalPortfolio = new Portfolio("Total Portfolio");
+        Portfolio techStocks = new Portfolio("Tech Stocks");
+        Portfolio bankStocks = new Portfolio("Banking Stocks");
+
+        techStocks.add(new Position("TCS" ,  1000));
+        techStocks.add(new Position("HCL"  ,12));
+
+        bankStocks.add(new Position("HDFCBANK" , 12));
+        bankStocks.add(new Position("ICICIBANK" , 11));
+
+        totalPortfolio.add(techStocks);
+        totalPortfolio.add(bankStocks);
+        totalPortfolio.add(new Position("BAJAJ" , 12));
+        totalPortfolio.print();
+
 
     }
 
@@ -223,4 +244,6 @@ public class Main {
             System.out.println(h.getSymbol() + ": " + h.getQuantity());
         }
     }
+
+
 }
