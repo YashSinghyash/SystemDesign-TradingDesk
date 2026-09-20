@@ -3,6 +3,7 @@ package com.yashpratapsingh.patterns;
 import com.yashpratapsingh.patterns.adapter.LegacyBroker;
 import com.yashpratapsingh.patterns.adapter.LegacyBrokerAPI;
 import com.yashpratapsingh.patterns.adapter.LegacyBrokerAdapter;
+import com.yashpratapsingh.patterns.builder.TradeOrder;
 import com.yashpratapsingh.patterns.command.*;
 import com.yashpratapsingh.patterns.decorator.*;
 import com.yashpratapsingh.patterns.facade.*;
@@ -162,5 +163,18 @@ public class Main {
         System.out.println("Regular trader reading data (should work):");
         System.out.println("Name: " + regularView.getName() + ", Risk limit: " + regularView.getRiskLimit());
 
+
+        System.out.println("");
+        System.out.println("BUILDER");
+/*        TradeOrder order1 = new TradeOrder(100, 0, "RELIANCE", null, 0, 0);
+        TradeOrder order2 = new TradeOrder(50, 0, "WIPRO", null, 95.5, 110.0);*/
+
+        TradeOrder order1 = new TradeOrder.Builder("RELIANCE",100)
+                .build();
+        TradeOrder order2 = new TradeOrder.Builder("WIPRO" , 40)
+                .stopLoss(94.5).takeProfit(110.0).build();
+
+        System.out.println(order1.toString());
+        System.out.println(order2.toString());
     }
 }
