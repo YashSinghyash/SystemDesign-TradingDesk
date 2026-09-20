@@ -18,6 +18,9 @@ import com.yashpratapsingh.patterns.proxy.*;
 import com.yashpratapsingh.patterns.singleton.RiskEngine;
 import com.yashpratapsingh.patterns.state.OrderMachine;
 import com.yashpratapsingh.patterns.strategy.*;
+import com.yashpratapsingh.patterns.template.NASDAQTradeProcessor;
+import com.yashpratapsingh.patterns.template.NYSETradeProcessor;
+import com.yashpratapsingh.patterns.template.TradeProcessor;
 
 import static com.yashpratapsingh.patterns.strategy.Order.Side.*;
 
@@ -176,5 +179,14 @@ public class Main {
 
         System.out.println(order1.toString());
         System.out.println(order2.toString());
+
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Template pattern");
+        TradeProcessor nyse = new NYSETradeProcessor();
+        nyse.processTrade();
+        TradeProcessor nasdaq = new NASDAQTradeProcessor();
+        nasdaq.processTrade();
     }
 }
