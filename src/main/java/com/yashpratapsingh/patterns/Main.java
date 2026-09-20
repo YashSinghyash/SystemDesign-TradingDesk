@@ -10,6 +10,10 @@ import com.yashpratapsingh.patterns.facade.*;
 import com.yashpratapsingh.patterns.factory.NASDAQOrderDesk;
 import com.yashpratapsingh.patterns.factory.NYSEOrderDesk;
 import com.yashpratapsingh.patterns.factory.OrderDesk;
+import com.yashpratapsingh.patterns.iterator.Holding;
+import com.yashpratapsingh.patterns.iterator.Iterator;
+import com.yashpratapsingh.patterns.iterator.NASDAQPortfolioIterator;
+import com.yashpratapsingh.patterns.iterator.NYSEPortfolioIterator;
 import com.yashpratapsingh.patterns.observer.DashboardDisplay;
 import com.yashpratapsingh.patterns.observer.PriceTicker;
 import com.yashpratapsingh.patterns.observer.RiskMonitorDisplay;
@@ -21,6 +25,9 @@ import com.yashpratapsingh.patterns.strategy.*;
 import com.yashpratapsingh.patterns.template.NASDAQTradeProcessor;
 import com.yashpratapsingh.patterns.template.NYSETradeProcessor;
 import com.yashpratapsingh.patterns.template.TradeProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.yashpratapsingh.patterns.strategy.Order.Side.*;
 
@@ -188,5 +195,32 @@ public class Main {
         nyse.processTrade();
         TradeProcessor nasdaq = new NASDAQTradeProcessor();
         nasdaq.processTrade();
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Iterator");
+        Holding[] nasdaqHoldings = {
+                new Holding("RELIANCE"  , 23),
+                new Holding("WIPRO" , 21)
+        };
+        Iterator nasdaqIterator = new NASDAQPortfolioIterator(nasdaqHoldings);
+
+        List<Holding> nyseHoldings = new ArrayList<>();
+        nyseHoldings.add(new Holding("TATA" , 12));
+        nyseHoldings.add(new Holding ("NVIDIA" , 2));
+        Iterator nyseIterator = new NYSEPortfolioIterator(nyseHoldings);
+
+        printPortfolio(nasdaqIterator);
+        printPortfolio(nyseIterator);
+
+
+
+    }
+
+    private static void printPortfolio(Iterator iterator) {
+        while(iterator.hasNext()){
+            Holding h = (Holding) iterator.next();
+            System.out.println(h.getSymbol() + ": " + h.getQuantity());
+        }
     }
 }
